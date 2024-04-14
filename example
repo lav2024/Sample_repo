@@ -1,0 +1,22 @@
+from flask import Flask, render_template, request, redirect
+app= Flask(__name__)
+@app.route("/",methods=["GET"])
+def hello():
+    details=[{"name":"lavanya","age":19},{"name":"Lurak","age":20}]
+    return render_template("index.html",details=details)
+@app.route("/form", methods=["GET"])
+def form():
+    return render_template("form.html")
+@app.route("/submit", methods=["post"])
+def submit():
+    firstname = request.form.get("fname")
+    lastname = request.form.get("lname")
+    return redirect(f"/displayname/{firstname}/{lastname}") 
+@app.route("/displayname/<name>/<lname>", methods=["GET"])
+def display(name,lname):
+    return render_template("index.html",name=name,last= lname)
+@app.route("/home", methods=["GET"])
+def re():
+    return "redirected here"
+if __name__ == "__main__":
+    app.run(debug = True,port=4000)
